@@ -1,0 +1,105 @@
+{% extends 'base.html' %}
+{% block title %}RoomResolve — Home{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero-section text-center py-5 mb-5 rounded-4 shadow">
+  <div class="hero-overlay py-5">
+    <h1 class="display-4 fw-bold text-white mb-3">
+      <i class="bi bi-building-fill-check me-2"></i>RoomResolve
+    </h1>
+    <p class="lead text-white-50 mb-4">
+      Your hostel issues, resolved faster. Submit, track and manage
+      complaints all in one place.
+    </p>
+    <div class="d-flex justify-content-center gap-3 flex-wrap">
+      <a href="{{ url_for('register') }}" class="btn btn-warning btn-lg fw-semibold px-4">
+        <i class="bi bi-person-plus me-2"></i>Get Started
+      </a>
+      <a href="{{ url_for('login') }}" class="btn btn-outline-light btn-lg px-4">
+        <i class="bi bi-box-arrow-in-right me-2"></i>Student Login
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- Features -->
+<section class="mb-5">
+  <h2 class="text-center fw-bold mb-4">Why RoomResolve?</h2>
+  <div class="row g-4">
+    <div class="col-md-4">
+      <div class="card h-100 border-0 shadow-sm text-center p-3 feature-card">
+        <div class="card-body">
+          <div class="feature-icon bg-primary-subtle rounded-circle mx-auto mb-3">
+            <i class="bi bi-lightning-charge-fill text-primary fs-3"></i>
+          </div>
+          <h5 class="card-title fw-bold">Fast Submission</h5>
+          <p class="card-text text-muted">
+            Submit hostel complaints in seconds with category tagging and image attachments.
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card h-100 border-0 shadow-sm text-center p-3 feature-card">
+        <div class="card-body">
+          <div class="feature-icon bg-success-subtle rounded-circle mx-auto mb-3">
+            <i class="bi bi-bar-chart-fill text-success fs-3"></i>
+          </div>
+          <h5 class="card-title fw-bold">Real-Time Tracking</h5>
+          <p class="card-text text-muted">
+            Track every complaint from Pending → In Progress → Resolved at a glance.
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card h-100 border-0 shadow-sm text-center p-3 feature-card">
+        <div class="card-body">
+          <div class="feature-icon bg-warning-subtle rounded-circle mx-auto mb-3">
+            <i class="bi bi-shield-fill-check text-warning fs-3"></i>
+          </div>
+          <h5 class="card-title fw-bold">Admin Control</h5>
+          <p class="card-text text-muted">
+            Administrators get a full dashboard to manage, prioritize and resolve issues.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Categories Preview -->
+<section class="mb-5">
+  <h2 class="text-center fw-bold mb-4">Complaint Categories</h2>
+  <div class="row g-3 justify-content-center">
+    {% set cats = [
+      ('Electricity','lightning-charge','warning'),
+      ('Water','droplet-fill','info'),
+      ('Wi-Fi','wifi','primary'),
+      ('Cleaning','stars','success'),
+      ('Mess','egg-fried','danger'),
+      ('Room','door-open','secondary'),
+      ('Furniture','lamp-fill','dark'),
+      ('Other','three-dots','muted')
+    ] %}
+    {% for name, icon, color in cats %}
+    <div class="col-6 col-md-3 col-lg-2">
+      <div class="card border-0 shadow-sm text-center p-2 category-pill">
+        <i class="bi bi-{{ icon }} text-{{ color }} fs-4 mb-1"></i>
+        <small class="fw-semibold">{{ name }}</small>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="text-center bg-primary text-white rounded-4 py-5 shadow">
+  <h3 class="fw-bold mb-2">Ready to resolve your hostel issues?</h3>
+  <p class="text-white-50 mb-4">Join RoomResolve today — it's free.</p>
+  <a href="{{ url_for('register') }}" class="btn btn-warning btn-lg fw-semibold px-5">
+    <i class="bi bi-person-check me-2"></i>Register Now
+  </a>
+</section>
+{% endblock %}

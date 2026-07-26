@@ -1,0 +1,179 @@
+{% extends 'base.html' %}
+{% block title %}Admin Dashboard — RoomResolve{% endblock %}
+
+{% block content %}
+<!-- Header -->
+<div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
+  <h2 class="fw-bold mb-0">
+    <i class="bi bi-shield-check me-2 text-danger"></i>Admin Dashboard
+  </h2>
+  <span class="badge bg-danger fs-6 px-3 py-2">
+    <i class="bi bi-person-badge me-1"></i>{{ session.get('user_name') }}
+  </span>
+</div>
+
+<!-- Stat Cards -->
+<div class="row g-3 mb-4">
+  <div class="col-6 col-md-3">
+    <div class="card border-0 shadow-sm text-center p-3 stat-card stat-total h-100">
+      <div class="display-5 fw-bold text-primary">{{ total }}</div>
+      <div class="text-muted small mt-1">Total Complaints</div>
+    </div>
+  </div>
+  <div class="col-6 col-md-3">
+    <div class="card border-0 shadow-sm text-center p-3 stat-card stat-pending h-100">
+      <div class="display-5 fw-bold text-warning">{{ pending }}</div>
+      <div class="text-muted small mt-1">Pending</div>
+    </div>
+  </div>
+  <div class="col-6 col-md-3">
+    <div class="card border-0 shadow-sm text-center p-3 stat-card stat-inprogress h-100">
+      <div class="display-5 fw-bold text-info">{{ in_progress }}</div>
+      <div class="text-muted small mt-1">In Progress</div>
+    </div>
+  </div>
+  <div class="col-6 col-md-3">
+    <div class="card border-0 shadow-sm text-center p-3 stat-card stat-resolved h-100">
+      <div class="display-5 fw-bold text-success">{{ resolved }}</div>
+      <div class="text-muted small mt-1">Resolved</div>
+    </div>
+  </div>
+</div>
+
+<!-- Filter Tabs -->
+<ul class="nav nav-tabs mb-3" id="complaintTabs">
+  <li class="nav-item">
+    <button class="nav-link active" onclick="filterTable('All')">All</button>
+  </li>
+  <li class="nav-item">
+    <button class="nav-link" onclick="filterTable('Pending')">Pending</button>
+  </li>
+  <li class="nav-item">
+    <button class="nav-link" onclick="filterTable('In Progress')">In Progress</button>
+  </li>
+  <li class="nav-item">
+    <button class="nav-link" onclick="filterTable('Resolved')">Resolved</button>
+  </li>
+</ul>
+
+<!-- Complaints Table -->
+<div class="card border-0 shadow-sm rounded-4">
+  <div class="card-body p-0">
+    {% if complaints %}
+    <div class="table-responsive">
+      <table class="table table-hover align-middle mb-0" id="complaintsTable">
+        <thead class="table-dark">
+          <tr>
+            <th>#ID</th>
+            <th>Student</th>
+            <th>Hostel / Room</th>
+            <th>Category</th>
+            <th>Description</th>
+            <th>Image</th>
+            <th>Date</th>
+            <th>Status</th>
+            <th>Update</th>
+            <th>Delete</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for c in complaints %}
+          <tr data-status="{{ c.status }}">
+            <td class="text-muted">{{ c.id }}</td>
+
+            <!-- Student Info -->
+            <td>
+              <div class="fw-semibold">{{ c.student.name }}</div>
+              <small class="text-muted">{{ c.student.email }}</small>
+            </td>
+
+            <!-- Hostel / Room -->
+            <td>
+              <small>{{ c.student.hostel }}</small><br />
+              <small class="text-muted">Room {{ c.student.room }}</small>
+            </td>
+
+            <!-- Category -->
+            <td><span class="badge bg-secondary">{{ c.category }}</span></td>
+
+            <!-- Description (truncated with tooltip) -->
+            <td style="max-width:200px;">
+              <span class="d-inline-block text-truncate w-100"
+                    title="{{ c.description }}"
+                    data-bs-toggle="tooltip">
+                {{ c.description }}
+              </span>
+            </td>
+
+            <!-- Image -->
+            <td>
+              {% if c.image_filename %}
+                <a href="{{ url_for('static', filename='uploads/' ~ c.image_filename) }}"
+                   target="_blank">
+                  <img src="{{ url_for('static', filename='uploads/' ~ c.image_filename) }}"
+                       alt="img" class="img-thumbnail" style="width:60px;height:50px;object-fit:cover;" />
+                </a>
+              {% else %}
+                <small class="text-muted">—</small>
+              {% endif %}
+            </td>
+
+            <!-- Date -->
+            <td>
+              <small>{{ c.created_at.strftime('%d %b %Y') }}</small>
+            </td>
+
+            <!-- Status Badge -->
+            <td>
+              {% if c.status == 'Pending' %}
+                <span class="badge bg-warning text-dark">Pending</span>
+              {% elif c.status == 'In Progress' %}
+                <span class="badge bg-info text-dark">In Progress</span>
+              {% else %}
+                <span class="badge bg-success">Resolved</span>
+              {% endif %}
+            </td>
+
+            <!-- Update Status Form -->
+            <td style="min-width:200px;">
+              <form method="POST"
+                    action="{{ url_for('update_status', complaint_id=c.id) }}"
+                    class="d-flex gap-1">
+                {{ status_form.hidden_tag() }}
+                <select name="status" class="form-select form-select-sm">
+                  <option value="Pending"     {% if c.status=='Pending'     %}selected{% endif %}>Pending</option>
+                  <option value="In Progress" {% if c.status=='In Progress' %}selected{% endif %}>In Progress</option>
+                  <option value="Resolved"    {% if c.status=='Resolved'    %}selected{% endif %}>Resolved</option>
+                </select>
+                <button type="submit" class="btn btn-sm btn-primary text-nowrap">
+                  <i class="bi bi-check-lg"></i>
+                </button>
+              </form>
+            </td>
+
+            <!-- Delete -->
+            <td>
+              <form method="POST"
+                    action="{{ url_for('delete_complaint', complaint_id=c.id) }}"
+                    onsubmit="return confirm('Delete complaint #{{ c.id }}? This cannot be undone.');">
+                {{ status_form.hidden_tag() }}
+                <button type="submit" class="btn btn-sm btn-danger">
+                  <i class="bi bi-trash3"></i>
+                </button>
+              </form>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+    {% else %}
+    <div class="text-center py-5 text-muted">
+      <i class="bi bi-inbox fs-1 d-block mb-2"></i>
+      <h5>No complaints found.</h5>
+    </div>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

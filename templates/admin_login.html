@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% block title %}Admin Login — RoomResolve{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-md-5 col-lg-4">
+    <div class="card shadow-lg border-0 rounded-4">
+      <div class="card-header bg-danger text-white text-center rounded-top-4 py-3">
+        <h4 class="mb-0 fw-bold">
+          <i class="bi bi-shield-lock me-2"></i>Admin Login
+        </h4>
+      </div>
+      <div class="card-body p-4">
+
+        <div class="alert alert-warning py-2 mb-3">
+          <small>
+            <i class="bi bi-info-circle me-1"></i>
+            Default: <strong>admin@roomresolve.com</strong> / <strong>admin123</strong>
+          </small>
+        </div>
+
+        <form method="POST" novalidate>
+          {{ form.hidden_tag() }}
+
+          <div class="mb-3">
+            {{ form.email.label(class="form-label fw-semibold") }}
+            {{ form.email(class="form-control" + (" is-invalid" if form.email.errors else ""),
+                          placeholder="admin@roomresolve.com") }}
+            {% for e in form.email.errors %}
+              <div class="invalid-feedback">{{ e }}</div>
+            {% endfor %}
+          </div>
+
+          <div class="mb-4">
+            {{ form.password.label(class="form-label fw-semibold") }}
+            {{ form.password(class="form-control" + (" is-invalid" if form.password.errors else ""),
+                             placeholder="Admin password") }}
+            {% for e in form.password.errors %}
+              <div class="invalid-feedback">{{ e }}</div>
+            {% endfor %}
+          </div>
+
+          <div class="d-grid">
+            {{ form.submit(class="btn btn-danger btn-lg fw-semibold") }}
+          </div>
+        </form>
+
+      </div>
+      <div class="card-footer text-center py-3">
+        <a href="{{ url_for('login') }}" class="text-muted">
+          <i class="bi bi-arrow-left me-1"></i>Back to Student Login
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

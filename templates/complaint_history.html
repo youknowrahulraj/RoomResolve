@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% block title %}My Complaints — RoomResolve{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
+  <h2 class="fw-bold mb-0">
+    <i class="bi bi-clock-history me-2 text-primary"></i>My Complaints
+  </h2>
+  <a href="{{ url_for('submit_complaint') }}" class="btn btn-primary fw-semibold">
+    <i class="bi bi-plus-circle me-2"></i>New Complaint
+  </a>
+</div>
+
+{% if complaints %}
+<div class="row g-3">
+  {% for c in complaints %}
+  <div class="col-12">
+    <div class="card border-0 shadow-sm rounded-4 complaint-card">
+      <div class="card-body">
+        <div class="d-flex justify-content-between align-items-start flex-wrap gap-2">
+          <div>
+            <span class="badge bg-secondary me-2">{{ c.category }}</span>
+            {% if c.status == 'Pending' %}
+              <span class="badge bg-warning text-dark">Pending</span>
+            {% elif c.status == 'In Progress' %}
+              <span class="badge bg-info text-dark">In Progress</span>
+            {% else %}
+              <span class="badge bg-success">Resolved</span>
+            {% endif %}
+            <span class="text-muted small ms-2">#{{ c.id }}</span>
+          </div>
+          <small class="text-muted">
+            <i class="bi bi-calendar3 me-1"></i>
+            {{ c.created_at.strftime('%d %B %Y, %I:%M %p') }}
+          </small>
+        </div>
+        <p class="mt-2 mb-2">{{ c.description }}</p>
+        {% if c.image_filename %}
+        <div>
+          <a href="{{ url_for('static', filename='uploads/' ~ c.image_filename) }}"
+             target="_blank">
+            <img src="{{ url_for('static', filename='uploads/' ~ c.image_filename) }}"
+                 alt="Complaint image" class="img-thumbnail mt-1"
+                 style="max-height: 140px;" />
+          </a>
+        </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+
+{% else %}
+<div class="text-center py-5 text-muted">
+  <i class="bi bi-inbox fs-1 d-block mb-3"></i>
+  <h5>No complaints submitted yet.</h5>
+  <a href="{{ url_for('submit_complaint') }}" class="btn btn-primary mt-2">
+    Submit Your First Complaint
+  </a>
+</div>
+{% endif %}
+{% endblock %}

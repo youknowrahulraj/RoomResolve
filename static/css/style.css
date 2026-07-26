@@ -1,0 +1,155 @@
+/* ══════════════════════════════════════════════════════
+   RoomResolve — Custom Stylesheet
+   ══════════════════════════════════════════════════════ */
+
+/* ── Global ── */
+body {
+  background-color: #f4f6fb;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+main.container {
+  flex: 1;
+}
+
+/* ── Navbar ── */
+.navbar-brand {
+  letter-spacing: 0.5px;
+}
+
+/* ── Hero Section ── */
+.hero-section {
+  background: linear-gradient(135deg, #0d6efd 0%, #0a58ca 50%, #084298 100%);
+  position: relative;
+  overflow: hidden;
+  min-height: 340px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+
+.hero-overlay {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+}
+
+/* ── Feature Cards ── */
+.feature-card {
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  border-radius: 16px !important;
+}
+
+.feature-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.1) !important;
+}
+
+.feature-icon {
+  width: 64px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ── Category Pills ── */
+.category-pill {
+  border-radius: 12px !important;
+  transition: transform 0.2s ease;
+  cursor: default;
+}
+
+.category-pill:hover {
+  transform: scale(1.05);
+}
+
+/* ── Stat Cards ── */
+.stat-card {
+  border-radius: 16px !important;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1) !important;
+}
+
+.stat-total     { border-top: 4px solid #0d6efd; }
+.stat-pending   { border-top: 4px solid #ffc107; }
+.stat-inprogress{ border-top: 4px solid #0dcaf0; }
+.stat-resolved  { border-top: 4px solid #198754; }
+
+/* ── Auth Cards ── */
+.card {
+  border-radius: 16px;
+}
+
+.card-header {
+  border-radius: 16px 16px 0 0 !important;
+}
+
+/* ── Complaint Cards ── */
+.complaint-card {
+  border-left: 4px solid #0d6efd !important;
+  transition: box-shadow 0.2s ease;
+}
+
+.complaint-card:hover {
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1) !important;
+}
+
+/* ── Table ── */
+.table th {
+  font-weight: 600;
+  font-size: 0.85rem;
+  letter-spacing: 0.3px;
+}
+
+/* ── Image Preview ── */
+#previewImg {
+  border-radius: 8px;
+  border: 2px dashed #0d6efd;
+  padding: 4px;
+}
+
+/* ── Footer ── */
+footer {
+  margin-top: auto;
+}
+
+/* ── Responsive tweaks ── */
+@media (max-width: 576px) {
+  .hero-section {
+    min-height: 260px;
+  }
+  .display-4 {
+    font-size: 1.8rem;
+  }
+}
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+::-webkit-scrollbar-thumb {
+  background: #c0c0c0;
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #888;
+}
