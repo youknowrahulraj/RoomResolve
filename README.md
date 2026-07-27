@@ -247,6 +247,7 @@ admin123
 - Analytics Dashboard
 - Mobile Application
 - Multi-Hostel Support
+- Student hostel biometric system
 - Role-based Access Control
 - Cloud Database Integration
 
